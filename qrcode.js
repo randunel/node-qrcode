@@ -158,7 +158,12 @@ exports.save = function(path,text,options,cb){
 //this returns an array of points that have either a 0 or 1 value representing 0 for light and 1 for dark
 //these values include points in the white edge of the qrcode because that edge is actually part of the spec  
 //
-exports.drawBitArray = function(text,options,cb){
+exports.drawBitArray = function(text, ec, options,cb){
+
+  if(typeof ec == 'function'){
+    cb = ec;
+    ec = null;
+  }
 
   if(typeof options == 'function'){
     cb = options;
@@ -166,7 +171,7 @@ exports.drawBitArray = function(text,options,cb){
   }
 
   var drawInstance = new QRCodeDraw();
-  drawInstance.drawBitArray(text,function(error,bits,width){
+  drawInstance.drawBitArray(text, ec, options, function(error,bits,width){
     cb(error,bits,width);
   });
 }
